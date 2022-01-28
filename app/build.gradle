@@ -2,13 +2,14 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.gbjm.marvelpoc"
+        applicationId "com.gbjm.randomCompany"
         minSdkVersion 21
         targetSdk 31
         versionCode 1
@@ -83,6 +84,7 @@ dependencies {
     //navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$navigation_version"
 
     testImplementation 'junit:junit:4.13.2'
 

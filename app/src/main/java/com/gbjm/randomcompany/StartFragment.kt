@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import com.gbjm.randomcompany.navigation.NavigationFlow
+import com.gbjm.randomcompany.navigation.ToFlowNavigable
 
 class StartFragment: Fragment() {
 
@@ -21,6 +23,7 @@ class StartFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val button = view.findViewById<Button>(R.id.initiateAppBtn)
         button.setOnClickListener {
+            (requireActivity() as ToFlowNavigable).navigateToFlow(NavigationFlow.UsersFlow)
         }
     }
 }

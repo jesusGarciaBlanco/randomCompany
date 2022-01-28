@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.gbjm.randomcompany.ui.detail.UserDetailViewModel" />
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ImageView
+            android:id="@+id/ivUserDetail"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:adjustViewBounds="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvNameDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            style="@style/TitleTextStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSurnameDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/DescriptionTextStyle"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:maxLines="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNameDetail"
+            app:layout_constraintBottom_toBottomOf="@id/ivUserDetail"/>
+
+        <TextView
+            android:id="@+id/tvGenderDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/DescriptionTextStyle"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:maxLines="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSurnameDetail"/>
+
+        <TextView
+            android:id="@+id/tvLocationDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/DescriptionTextStyle"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:maxLines="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGenderDetail"/>
+
+        <TextView
+            android:id="@+id/tvRegisteredDateDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/DescriptionTextStyle"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:maxLines="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvLocationDetail"/>
+
+        <TextView
+            android:id="@+id/tvEmailDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/DescriptionTextStyle"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:maxLines="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvRegisteredDateDetail"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/base_flow"
+    android:id="@+id/main_nav_graph">
+
+    <include app:graph="@navigation/base_flow" />
+
+    <include app:graph="@navigation/user_list_flow" />
+
+    <include app:graph="@navigation/user_detail_flow" />
+
+    <action
+        android:id="@+id/action_global_users_flow"
+        app:destination="@id/user_list_flow"
+        app:popUpTo="@id/main_nav_graph"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim" />
+
+    <action
+        android:id="@+id/action_global_user_detail_flow"
+        app:destination="@id/user_detail_flow"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim">
+        <argument android:name="userId"
+            app:argType="integer"/>
+    </action>
+
+    <action
+        app:popUpTo="@id/main_nav_graph"
+        android:id="@+id/action_global_start_flow"
+        app:destination="@id/base_flow"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim" />
+</navigation>

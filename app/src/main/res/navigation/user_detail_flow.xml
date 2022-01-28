@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/user_detail_flow"
+    app:startDestination="@+id/userDetailDest">
+    <fragment
+        android:id="@+id/userDetailDest"
+        android:name="com.gbjm.randomcompany.ui.detail.UserDetailFragment"
+        android:label="UserDetailFragment">
+        <deepLink app:uri="randomCompany://userDetail?userId={userId}"/>
+        <argument android:name="userId" app:argType="integer"
+            android:defaultValue="0"/>
+    </fragment>
+</navigation>

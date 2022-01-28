@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gbjm.randomcompany.ui.users.entity.UiUserRow
+import javax.inject.Inject
 
-class UsersListViewModel : ViewModel() {
+class UsersListViewModel @Inject constructor(): ViewModel() {
 
     val _uiUserList = MutableLiveData<List<UiUserRow>>()
     val uiUserList: LiveData<List<UiUserRow>>
