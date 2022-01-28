@@ -87,6 +87,8 @@ class UserDetailFragment : BaseFragment<UserDetailViewModel, FragmentUserDetailB
         surname = binding.tvSurnameDetail
         gender = binding.tvGenderDetail
         location = binding.tvLocationDetail
+        registeredDate = binding.tvRegisteredDateDetail
+        email = binding.tvEmailDetail
 
 
         return binding.root

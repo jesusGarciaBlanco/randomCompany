@@ -15,6 +15,8 @@ import com.gbjm.randomcompany.base.BaseFragment
 import com.gbjm.randomcompany.databinding.FragmentListBinding
 import javax.inject.Inject
 import androidx.lifecycle.Observer
+import com.gbjm.randomcompany.navigation.NavigationFlow
+import com.gbjm.randomcompany.navigation.ToFlowNavigable
 import com.gbjm.randomcompany.ui.users.adapter.UsersListAdapter
 import com.gbjm.randomcompany.ui.users.entity.UiUserRow
 
@@ -107,7 +109,8 @@ class UsersListFragment : BaseFragment<UsersListViewModel, FragmentListBinding>(
         listAdapter.set(list)
         listAdapter.listener(object : UsersListAdapter.UserListener {
             override fun onUserPhotoClicked(user: UiUserRow) {
-                TODO("Not yet implemented")
+                //we should navigate from viewModel
+                (requireActivity() as ToFlowNavigable).navigateToFlow(NavigationFlow.DetailsFlow(user.id))
             }
 
             override fun onUserDeleteClicked(user: UiUserRow) {
