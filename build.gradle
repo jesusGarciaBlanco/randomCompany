@@ -1,12 +1,27 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
 buildscript {
+    ext {
+        kotlin_version = '1.5.21'
+        constraint_layout_version = '2.0.1'
+        picasso_version = '2.71828'
+//    glide_version = '4.12.0'
+        recycler_view_version = '1.1.0'
+        navigation_version = '2.3.0'
+        fragment_testing_version ='1.2.4'
+        mockito_version = '2.24.5'
+        lifecycle_version = '2.3.1'
+        navigation_version = '2.3.5'
+    }
     repositories {
-        google()
         mavenCentral()
+        google()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.4"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
