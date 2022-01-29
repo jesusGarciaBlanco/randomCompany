@@ -10,6 +10,6 @@ data class ResponseItems<T>(
 )
 
 interface ApiService {
-    @GET("api/?seed=${Constants.SEED_VALUE}&results=${Constants.RESULTS_VALUE}")
-    suspend fun getUsers(@Query("page") page: Int): ResponseItems<UserDataEntity>
+    @GET("api/?seed=${SEED_VALUE}")
+    suspend fun getUsers(@Query("results") pageSize: Int, @Query("page") page: Int): ResponseItems<UserDataEntity>
 }

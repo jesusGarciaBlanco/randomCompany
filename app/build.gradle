@@ -89,6 +89,16 @@ dependencies {
     //pagination library
     implementation "androidx.paging:paging-runtime:$paging_version"
 
+    //Room
+    implementation("androidx.room:room-runtime:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    //Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$roomVersion")
+    //Test helpers
+    testImplementation("androidx.room:room-testing:$roomVersion")
+//    Paging 3 Integration
+    implementation("androidx.room:room-paging:2.4.1")
+
     testImplementation 'junit:junit:4.13.2'
 
     // Core library

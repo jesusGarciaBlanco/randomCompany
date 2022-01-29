@@ -6,7 +6,7 @@ data class UserDataEntity (
     val location: UserLocation,
     val email : String,
     val login : Login,
-    val registered: RegisteredData,
+    val registered: RegisteredDate,
     val phone: String,
     val picture: Pictures
 
@@ -29,7 +29,7 @@ data class Login(
     val uuid: String
 )
 
-data class RegisteredData(
+data class RegisteredDate(
     val date: String
 )
 

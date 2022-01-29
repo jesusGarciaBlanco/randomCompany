@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 private const val TMDB_STARTING_PAGE_INDEX = 1
 
-class UsersPagingSource @Inject constructor(
+class UsersPagingSource constructor(
     private val service: ApiService
 ) : PagingSource<Int, UserDataEntity>() {
 
@@ -19,6 +19,7 @@ class UsersPagingSource @Inject constructor(
         val pageIndex = params.key ?: TMDB_STARTING_PAGE_INDEX
         return try {
             val response = service.getUsers(
+                pageSize = 10,
                 page = pageIndex
             )
             val users = response.results

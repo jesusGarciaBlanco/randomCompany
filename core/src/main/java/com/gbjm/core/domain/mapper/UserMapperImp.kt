@@ -34,7 +34,7 @@ class UserMapperImp @Inject constructor(
             phone = remoteUser.phone,
             address = "${remoteUser.location.country}, ${remoteUser.location.state}, ${remoteUser.location.city}, ${remoteUser.location.postcode}",
             email = remoteUser.email,
-            registeredDate = dateParsed,
+            registeredDate = remoteUser.registered.date,
             pictures = Pictures(remoteUser.picture.large,remoteUser.picture.medium, remoteUser.picture.thumbnail),
         )
     }

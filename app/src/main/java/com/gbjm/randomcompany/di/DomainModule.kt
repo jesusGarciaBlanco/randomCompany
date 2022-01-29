@@ -1,8 +1,7 @@
 package com.gbjm.randomcompany.di
 
 import com.gbjm.core.api.ApiService
-import com.gbjm.core.domain.UsersRemoteDataSource
-import com.gbjm.core.domain.UsersRemoteDataSourceImp
+import com.gbjm.core.domain.AppDatabase
 import com.gbjm.core.domain.UsersRepository
 import com.gbjm.core.domain.UsersRepositoryImp
 import com.gbjm.core.domain.mapper.UserMapperImp
@@ -17,8 +16,8 @@ class DomainModule {
 
     @Singleton
     @Provides
-    fun providesUserListRepository(remoteDataService: UsersRemoteDataSource, mapper: UserMapperImp): UsersRepository {
-        val repository = UsersRepositoryImp(remoteDataService,mapper)
+    fun providesUserListRepository(api: ApiService, db: AppDatabase, mapper: UserMapperImp): UsersRepository {
+        val repository = UsersRepositoryImp(api, db, mapper)
         return repository
     }
 

@@ -1,18 +1,23 @@
 package com.gbjm.core.domain.entity
 
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.gbjm.core.model.entity.Pictures
 import com.gbjm.core.model.entity.UserDataEntity
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Entity(tableName = "users")
 data class User(
-    val id: String,
+    @PrimaryKey val id: String,
     val name: String,
     val surname: String,
     val phone: String,
     val address: String,
     val email: String,
-    val registeredDate: Date,
+    val registeredDate: String,
+    @Embedded
     val pictures: Pictures
 )
 
@@ -26,7 +31,7 @@ fun UserDataEntity.toDomain(): User {
         phone = phone,
         address = "${location.country}, ${location.state}, ${location.city}, ${location.postcode}",
         email = email,
-        registeredDate = dateParsed,
+        registeredDate = registered.date,
         pictures = Pictures(picture.large,picture.medium, picture.thumbnail),
     )
 }
