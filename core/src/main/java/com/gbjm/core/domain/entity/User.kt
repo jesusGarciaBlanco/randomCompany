@@ -10,7 +10,7 @@ import java.util.*
 
 @Entity(tableName = "users")
 data class User(
-    @PrimaryKey val id: String,
+    @PrimaryKey val uuid: String,
     val name: String,
     val surname: String,
     val phone: String,
@@ -18,14 +18,15 @@ data class User(
     val email: String,
     val registeredDate: String,
     @Embedded
-    val pictures: Pictures
+    val pictures: Pictures,
+    val gender: String
 )
 
 fun UserDataEntity.toDomain(): User {
     val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     val dateParsed = sdf.parse(this.registered.date)
     return User(
-        id = login.uuid,
+        uuid = login.uuid,
         name = "${name.title} ${name.first}",
         surname =name.last,
         phone = phone,
@@ -33,5 +34,6 @@ fun UserDataEntity.toDomain(): User {
         email = email,
         registeredDate = registered.date,
         pictures = Pictures(picture.large,picture.medium, picture.thumbnail),
+        gender = gender
     )
 }

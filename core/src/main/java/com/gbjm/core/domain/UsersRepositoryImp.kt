@@ -7,6 +7,7 @@ import com.gbjm.core.domain.mapper.UserMapperImp
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 const val NETWORK_PAGE_SIZE = 10
 
@@ -32,8 +33,12 @@ class UsersRepositoryImp @Inject constructor(
         ).flow
     }
 
+    override fun getUserDetail(id: String): User {
+        val userFlow = db.userDao.getUserById(id)
+        return db.userDao.getUserById(id)
+    }
 
-//    override suspend fun getAllUsers(): Flow<PagingData<User>> {
+    //    override suspend fun getAllUsers(): Flow<PagingData<User>> {
 //        val users = remoteDataSource.getUsers()
 //        return remoteDataSource.getUsers().map { pagingData ->
 //            pagingData.map { remoteUser ->

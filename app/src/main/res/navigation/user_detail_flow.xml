@@ -8,7 +8,7 @@
         android:name="com.gbjm.randomcompany.ui.detail.UserDetailFragment"
         android:label="UserDetailFragment">
         <deepLink app:uri="randomCompany://userDetail?userId={userId}"/>
-        <argument android:name="userId" app:argType="integer"
+        <argument android:name="userId" app:argType="string"
             android:defaultValue="0"/>
     </fragment>
 </navigation>

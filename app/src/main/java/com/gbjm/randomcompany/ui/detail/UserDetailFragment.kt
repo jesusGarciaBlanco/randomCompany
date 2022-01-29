@@ -8,12 +8,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.gbjm.core.architecture.extensions.viewModelProvider
 import com.gbjm.randomcompany.R
 import com.gbjm.randomcompany.base.BaseFragment
 import com.gbjm.randomcompany.databinding.FragmentUserDetailBinding
 import com.gbjm.randomcompany.ui.detail.entity.UiUserDetail
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class UserDetailFragment : BaseFragment<UserDetailViewModel, FragmentUserDetailBinding>() {
@@ -22,13 +25,13 @@ class UserDetailFragment : BaseFragment<UserDetailViewModel, FragmentUserDetailB
 
     private lateinit var viewModel: UserDetailViewModel
 
-    private lateinit var image: ImageView
-    private lateinit var name: TextView
-    private lateinit var surname: TextView
-    private lateinit var gender: TextView
-    private lateinit var location: TextView
-    private lateinit var registeredDate: TextView
-    private lateinit var email: TextView
+    private var image: ImageView? = null
+    private var name: TextView? = null
+    private var surname: TextView? = null
+    private var gender: TextView? = null
+    private var location: TextView? = null
+    private var registeredDate: TextView? = null
+    private var email: TextView? = null
 
     /**
      * get the layout id
@@ -98,8 +101,8 @@ class UserDetailFragment : BaseFragment<UserDetailViewModel, FragmentUserDetailB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.getInt("userId")?.let {
-            viewModel.onUserDetailNeeded(it)
+        arguments?.getString("userId")?.let { userId ->
+                viewModel.onUserDetailNeeded(userId)
         }
     }
 
@@ -113,12 +116,12 @@ class UserDetailFragment : BaseFragment<UserDetailViewModel, FragmentUserDetailB
             .error(R.drawable.image_error)
             .into(image)
 
-        name.text = detailHeader.name
-        surname.text = detailHeader.surname
-        gender.text = detailHeader.gender
-        location.text = detailHeader.location
-        registeredDate.text = detailHeader.registeredDate
-        email.text = detailHeader.email
+        name?.text = detailHeader.name
+        surname?.text = detailHeader.surname
+        gender?.text = detailHeader.gender
+        location?.text = detailHeader.location
+        registeredDate?.text = detailHeader.registeredDate
+        email?.text = detailHeader.email
 
     }
 

@@ -10,6 +10,7 @@ import com.gbjm.core.domain.entity.User
 import com.gbjm.core.domain.mapper.UserMapperImp
 import okio.IOException
 import retrofit2.HttpException
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 const val INITIAL_PAGE = 10
@@ -55,7 +56,7 @@ class CustomRemoteMediator(
                         )
                     }
 
-                    lastItem.id
+                    lastItem.uuid
                 }
             }
 
@@ -64,10 +65,14 @@ class CustomRemoteMediator(
             // since Retrofit's Coroutine CallAdapter dispatches on a
             // worker thread.
             val usersDbSize = userDao.count()
+
+            Timber.d("user dbSize= $usersDbSize")
             var page : Int = INITIAL_PAGE
-            if (usersDbSize > 10){
-                page = (usersDbSize / 10) +1
-            }
+//            if (usersDbSize > 10){
+//                page = (usersDbSize / 10) +1
+//            }
+
+            Timber.d("page=$page")
             val response = networkService.getUsers(NETWORK_PAGE_SIZE, page)
 
             // Store loaded data, and next key in transaction, so that

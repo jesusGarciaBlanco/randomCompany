@@ -20,7 +20,7 @@ class UiUserMapper @Inject constructor(
 
     suspend fun mapDomainUserToUi(domainUser: User): UiUserRow {
         return UiUserRow(
-            id = domainUser.id,
+            id = domainUser.uuid,
             name = domainUser.name,
             surname = domainUser.surname,
             email = domainUser.email,

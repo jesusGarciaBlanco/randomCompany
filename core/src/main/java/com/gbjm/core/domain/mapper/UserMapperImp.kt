@@ -28,7 +28,7 @@ class UserMapperImp @Inject constructor(
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         val dateParsed = sdf.parse(remoteUser.registered.date)
         return User(
-            id = remoteUser.login.uuid,
+            uuid = remoteUser.login.uuid,
             name = "${remoteUser.name.title} ${remoteUser.name.first}",
             surname =remoteUser.name.last,
             phone = remoteUser.phone,
@@ -36,6 +36,7 @@ class UserMapperImp @Inject constructor(
             email = remoteUser.email,
             registeredDate = remoteUser.registered.date,
             pictures = Pictures(remoteUser.picture.large,remoteUser.picture.medium, remoteUser.picture.thumbnail),
+            gender = remoteUser.gender
         )
     }
 

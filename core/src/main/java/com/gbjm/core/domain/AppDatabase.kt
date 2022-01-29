@@ -12,7 +12,7 @@ import com.gbjm.core.domain.entity.User
 /**
  * The Room database for this app
  */
-@Database(entities = [User::class], version = 1, exportSchema = false)
+@Database(entities = [User::class], version = 3, exportSchema = false)
 //@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract val userDao: UserDao

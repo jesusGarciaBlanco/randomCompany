@@ -8,5 +8,7 @@ interface UsersRepository {
 
     suspend fun getAllUsers() : Flow<PagingData<User>>
 
+    fun getUserDetail(id: String): User
+
     suspend fun getFavorites(): List<String>
 }

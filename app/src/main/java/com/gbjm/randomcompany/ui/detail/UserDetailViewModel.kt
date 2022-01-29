@@ -1,12 +1,21 @@
 package com.gbjm.randomcompany.ui.detail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.util.Log
+import androidx.lifecycle.*
+import com.gbjm.core.domain.UsersRepository
 import com.gbjm.randomcompany.ui.detail.entity.UiUserDetail
+import com.gbjm.randomcompany.ui.detail.mapper.UiUserDetailMapper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
-class UserDetailViewModel @Inject constructor(): ViewModel() {
+class UserDetailViewModel @Inject constructor(
+    private val repository: UsersRepository,
+    private val mapper: UiUserDetailMapper
+): ViewModel() {
     val _uiUserDetail = MutableLiveData<UiUserDetail>()
     val uiUserDetail: LiveData<UiUserDetail>
         get() = _uiUserDetail
@@ -16,11 +25,15 @@ class UserDetailViewModel @Inject constructor(): ViewModel() {
         get() = _uiError
 
 
-    fun onUserDetailNeeded(userId: Int) {
-        //TODO connect with UseCase
-        _uiUserDetail.value = UiUserDetail(
-            "https://static.dw.com/image/55090176_303.jpg", "Pedro", "Picapiedra",
-        "Varón", "pueblo paleta 3, portal 2, bajo Z", "23/11/1009",
-        "pedro.picapiedra@gmail.com")
+    fun onUserDetailNeeded(userId: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val userDomain = repository.getUserDetail(userId)
+            val userDetailMapped = mapper.mapDomainUserToUiDetail(userDomain)
+            Log.d("DBase", "userDetailMapper id=${userDetailMapped.id}")
+            Log.d("DBase", "userDetailMapper name=${userDetailMapped.name}")
+            Log.d("DBase", "userDetailMapper email=${userDetailMapped.email}")
+            _uiUserDetail.postValue(userDetailMapped)
+        }
     }
+
 }
