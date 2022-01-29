@@ -15,10 +15,14 @@ import com.gbjm.randomcompany.base.BaseFragment
 import com.gbjm.randomcompany.databinding.FragmentListBinding
 import javax.inject.Inject
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.gbjm.randomcompany.navigation.NavigationFlow
 import com.gbjm.randomcompany.navigation.ToFlowNavigable
 import com.gbjm.randomcompany.ui.users.adapter.UsersListAdapter
 import com.gbjm.randomcompany.ui.users.entity.UiUserRow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class UsersListFragment : BaseFragment<UsersListViewModel, FragmentListBinding>() {
 
@@ -65,11 +69,6 @@ class UsersListFragment : BaseFragment<UsersListViewModel, FragmentListBinding>(
      * Observe the observables and perform the actions
      */
     private fun setupObservation() {
-        viewModel.uiUserList.observe(this, Observer { userList ->
-            progress.visibility = View.GONE
-            render(userList)
-        })
-
         viewModel.uiError.observe(this, Observer {
             progress.visibility = View.GONE
             if (it!=null && !it.isEmpty()) {
@@ -86,7 +85,7 @@ class UsersListFragment : BaseFragment<UsersListViewModel, FragmentListBinding>(
         binding.viewModel = viewModel
         binding.lifecycleOwner = this@UsersListFragment
         recycler = binding.recycler
-        progress  =binding.progressNetwork
+        progress = binding.progressNetwork
 
         return binding.root
     }
@@ -96,18 +95,7 @@ class UsersListFragment : BaseFragment<UsersListViewModel, FragmentListBinding>(
         super.onViewCreated(view, savedInstanceState)
 
         recycler = view.findViewById(R.id.recycler)
-        listAdapter = UsersListAdapter()
-
-        recycler.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        recycler.adapter = listAdapter
-
-        progress.visibility = View.VISIBLE
-        viewModel.onListNeeded()
-    }
-
-    fun render(list: List<UiUserRow>) {
-        listAdapter.set(list)
-        listAdapter.listener(object : UsersListAdapter.UserListener {
+        listAdapter = UsersListAdapter(object : UsersListAdapter.UserListener {
             override fun onUserPhotoClicked(user: UiUserRow) {
                 //we should navigate from viewModel
                 (requireActivity() as ToFlowNavigable).navigateToFlow(NavigationFlow.DetailsFlow(user.id))
@@ -115,18 +103,49 @@ class UsersListFragment : BaseFragment<UsersListViewModel, FragmentListBinding>(
 
             override fun onUserDeleteClicked(user: UiUserRow) {
                 TODO("Not yet implemented")
+                Timber.d("delete button was clicked")
             }
 
             override fun onUserFavoriteClicked(user: UiUserRow, checked: Boolean) {
                 TODO("Not yet implemented")
+                Timber.d("favorite button was clicked")
             }
         })
-        val layoutManager = recycler.layoutManager
-        if (layoutManager is LinearLayoutManager) {
-            val linearLayoutManager = layoutManager as LinearLayoutManager?
-            linearLayoutManager?.scrollToPositionWithOffset(0, 0)
+
+        recycler.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        recycler.adapter = listAdapter
+
+        progress.visibility = View.VISIBLE
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.onListNeeded().collectLatest { users ->
+//                render(users)
+                listAdapter?.submitData(users)
+            }
         }
     }
+
+//    fun render(list: List<UiUserRow>) {
+//        listAdapter.set(list)
+//        listAdapter.listener(object : UsersListAdapter.UserListener {
+//            override fun onUserPhotoClicked(user: UiUserRow) {
+//                //we should navigate from viewModel
+//                (requireActivity() as ToFlowNavigable).navigateToFlow(NavigationFlow.DetailsFlow(user.id))
+//            }
+//
+//            override fun onUserDeleteClicked(user: UiUserRow) {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onUserFavoriteClicked(user: UiUserRow, checked: Boolean) {
+//                TODO("Not yet implemented")
+//            }
+//        })
+//        val layoutManager = recycler.layoutManager
+//        if (layoutManager is LinearLayoutManager) {
+//            val linearLayoutManager = layoutManager as LinearLayoutManager?
+//            linearLayoutManager?.scrollToPositionWithOffset(0, 0)
+//        }
+//    }
 
     fun showError(errorMessage: String) {
         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()

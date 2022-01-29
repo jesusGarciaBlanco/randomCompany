@@ -23,7 +23,7 @@
         app:enterAnim="@anim/nav_default_enter_anim"
         app:exitAnim="@anim/nav_default_exit_anim">
         <argument android:name="userId"
-            app:argType="integer"/>
+            app:argType="string"/>
     </action>
 
     <action

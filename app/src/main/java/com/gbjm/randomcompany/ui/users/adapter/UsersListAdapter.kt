@@ -7,13 +7,13 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ToggleButton
-import androidx.recyclerview.widget.RecyclerView
+import androidx.paging.PagingDataAdapter
 import com.gbjm.randomcompany.R
 import com.gbjm.randomcompany.base.BaseViewHolder
 import com.gbjm.randomcompany.ui.users.entity.UiUserRow
 import com.squareup.picasso.Picasso
 
-class UsersListAdapter : RecyclerView.Adapter<UsersListAdapter.ListViewHolder>() {
+class UsersListAdapter(private val listener: UserListener) : PagingDataAdapter<UiUserRow, UsersListAdapter.ListViewHolder>(UserDiffCallBack()) {
 
     interface UserListener {
         fun onUserPhotoClicked(user: UiUserRow)
@@ -23,32 +23,31 @@ class UsersListAdapter : RecyclerView.Adapter<UsersListAdapter.ListViewHolder>()
         fun onUserFavoriteClicked(user: UiUserRow, checked: Boolean)
     }
 
-    private var users: List<UiUserRow> = emptyList()
-    private lateinit var listener: UserListener
+//    private var users: List<UiUserRow> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_user_row, parent, false)
         return ListViewHolder(view,listener)
     }
 
-    override fun getItemCount(): Int = users.size
+//    override fun getItemCount(): Int = users.size
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        with (users[position]) {
-            holder.bind(this)
+       with (getItem(position)) {
+            holder.bind(this!!)
         }
     }
 
-    fun set(listModel: List<UiUserRow>) {
-        users = listModel
-        notifyDataSetChanged()
-    }
+//    fun set(listModel: List<UiUserRow>) {
+//        users = listModel
+//        notifyDataSetChanged()
+//    }
 
-    fun listener(listener: UserListener) {
-        this.listener = listener
-    }
+//    fun listener(listener: UserListener) {
+//        this.listener = listener
+//    }
 
-    class ListViewHolder(view: View, private val listener: UserListener) : BaseViewHolder<UiUserRow>(view) {
+    class ListViewHolder(view: View, private val listener: UserListener?) : BaseViewHolder<UiUserRow>(view) {
         var image: ImageView = view.findViewById(R.id.ivUser)
         var name: TextView = view.findViewById(R.id.tvName)
         var surname: TextView = view.findViewById(R.id.tvSurname)
@@ -78,15 +77,15 @@ class UsersListAdapter : RecyclerView.Adapter<UsersListAdapter.ListViewHolder>()
             phone.text = item.phone
 
             image.setOnClickListener {
-                listener.onUserPhotoClicked(item)
+                listener?.onUserPhotoClicked(item)
             }
 
             deleteBtn.setOnClickListener {
-                listener.onUserDeleteClicked(item)
+                listener?.onUserDeleteClicked(item)
             }
 
             favoriteTggl.setOnCheckedChangeListener { compoundButton, b ->
-                listener.onUserFavoriteClicked(item, b)
+                listener?.onUserFavoriteClicked(item, b)
             }
         }
     }

@@ -71,6 +71,9 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
+    //pagination library
+    implementation "androidx.paging:paging-runtime:$paging_version"
+
     //navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
