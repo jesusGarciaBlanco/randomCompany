@@ -3,6 +3,7 @@ package com.gbjm.randomcompany.ui.users
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
 import com.gbjm.core.domain.UsersRepository
 import com.gbjm.core.domain.entity.Favorite

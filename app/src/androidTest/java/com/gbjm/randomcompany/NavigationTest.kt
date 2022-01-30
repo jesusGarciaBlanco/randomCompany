@@ -31,6 +31,7 @@ class NavigationTest {
         ActivityTestRule(MainActivity::class.java)
 
     @Before fun setup() {
+
     }
 
     /**
