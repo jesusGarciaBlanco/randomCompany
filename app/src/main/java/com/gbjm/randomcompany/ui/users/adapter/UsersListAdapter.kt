@@ -38,7 +38,7 @@ class UsersListAdapter(private val listener: UserListener) : PagingDataAdapter<U
         }
     }
 
-//    fun set(listModel: List<UiUserRow>) {
+    //    fun set(listModel: List<UiUserRow>) {
 //        users = listModel
 //        notifyDataSetChanged()
 //    }
@@ -59,6 +59,9 @@ class UsersListAdapter(private val listener: UserListener) : PagingDataAdapter<U
 
 
         override fun bind(item: UiUserRow) {
+            favoriteTggl.setOnCheckedChangeListener(null)
+            favoriteTggl.isChecked = item.isFavorite
+
             Picasso.get().cancelRequest(image)
             if (item.image.isNotEmpty()) {
 
@@ -84,10 +87,11 @@ class UsersListAdapter(private val listener: UserListener) : PagingDataAdapter<U
                 listener?.onUserDeleteClicked(item)
             }
 
-            favoriteTggl.setOnCheckedChangeListener(null)
-            favoriteTggl.isChecked = item.isFavorite
-
-            favoriteTggl.setOnCheckedChangeListener { compoundButton, b ->
+            favoriteTggl.setOnCheckedChangeListener { _, b ->
+                //we have to change ui isFavorite manually to keep the state of the toggleButton
+                //in recycleview cause the changes in the database favorite table
+                //doesnt provoque a change in the model
+                item.isFavorite = b
                 listener?.onUserFavoriteClicked(item, b)
             }
         }
