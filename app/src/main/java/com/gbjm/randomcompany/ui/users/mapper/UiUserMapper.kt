@@ -1,5 +1,6 @@
 package com.gbjm.randomcompany.ui.users.mapper
 
+import com.gbjm.core.domain.entity.Favorite
 import com.gbjm.core.domain.entity.User
 import com.gbjm.randomcompany.ui.users.entity.UiUserRow
 import kotlinx.coroutines.CoroutineDispatcher
@@ -10,15 +11,16 @@ class UiUserMapper @Inject constructor(
     private val defaultDispatcher: CoroutineDispatcher
 ) {
 
-    suspend fun mapDomainUsersListToUi(domainUsers: List<User>): List<UiUserRow> {
+    suspend fun mapDomainUsersListToUi(domainUsers: List<User>, favorites: List<Favorite>): List<UiUserRow> {
         return withContext(defaultDispatcher) {
             domainUsers.map {
-                mapDomainUserToUi(it)
+                mapDomainUserToUi(it,favorites)
             }
         }
     }
 
-    suspend fun mapDomainUserToUi(domainUser: User): UiUserRow {
+    suspend fun mapDomainUserToUi(domainUser: User, favorites: List<Favorite>): UiUserRow {
+        val myMap = favorites.map { it.uuid to it }.toMap()
         return UiUserRow(
             id = domainUser.uuid,
             name = domainUser.name,
@@ -26,7 +28,7 @@ class UiUserMapper @Inject constructor(
             email = domainUser.email,
             image = domainUser.pictures.thumbnail,
             phone = domainUser.phone,
-            isFavorite = false
+            isFavorite = myMap.containsKey(domainUser.uuid)
         )
     }
 }

@@ -1,9 +1,11 @@
 package com.gbjm.core.domain.dao
 
 import androidx.paging.PagingSource
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.gbjm.core.domain.entity.User
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {

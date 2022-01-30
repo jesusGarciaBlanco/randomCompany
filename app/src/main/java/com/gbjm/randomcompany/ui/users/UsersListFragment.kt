@@ -1,5 +1,6 @@
 package com.gbjm.randomcompany.ui.users
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.gbjm.randomcompany.databinding.FragmentListBinding
 import javax.inject.Inject
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.gbjm.randomcompany.navigation.NavigationFlow
 import com.gbjm.randomcompany.navigation.ToFlowNavigable
 import com.gbjm.randomcompany.ui.users.adapter.UsersListAdapter
@@ -31,9 +33,11 @@ class UsersListFragment : BaseFragment<UsersListViewModel, FragmentListBinding>(
 
     private lateinit var viewModel: UsersListViewModel
 
-    private lateinit var listAdapter: UsersListAdapter
-    private lateinit var recycler : RecyclerView
-    private lateinit var progress: ProgressBar
+    private var listAdapter: UsersListAdapter? = null
+    private var recycler : RecyclerView? = null
+    private var progress: ProgressBar? = null
+
+    private var swipeToRefresh: SwipeRefreshLayout? = null
 
     /**
      * get the layout id
@@ -70,7 +74,7 @@ class UsersListFragment : BaseFragment<UsersListViewModel, FragmentListBinding>(
      */
     private fun setupObservation() {
         viewModel.uiError.observe(this, Observer {
-            progress.visibility = View.GONE
+            progress?.visibility = View.GONE
             if (it!=null && !it.isEmpty()) {
                 showError(it)
             }
@@ -86,6 +90,7 @@ class UsersListFragment : BaseFragment<UsersListViewModel, FragmentListBinding>(
         binding.lifecycleOwner = this@UsersListFragment
         recycler = binding.recycler
         progress = binding.progressNetwork
+        swipeToRefresh = binding.swipeRefreshLayout
 
         return binding.root
     }
@@ -102,50 +107,50 @@ class UsersListFragment : BaseFragment<UsersListViewModel, FragmentListBinding>(
             }
 
             override fun onUserDeleteClicked(user: UiUserRow) {
-                TODO("Not yet implemented")
-                Timber.d("delete button was clicked")
+                val builder = AlertDialog.Builder(activity)
+                builder.setMessage("Are you sure you want to Delete?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes") { dialog, id ->
+                        // Delete selected note from database
+                        viewModel.onDeleteItem(user.id)
+                    }
+                    .setNegativeButton("No") { dialog, id ->
+                        // Dismiss the dialog
+                        dialog.dismiss()
+                    }
+                val alert = builder.create()
+                alert.show()
             }
 
             override fun onUserFavoriteClicked(user: UiUserRow, checked: Boolean) {
-                TODO("Not yet implemented")
-                Timber.d("favorite button was clicked")
+                if (checked) {
+                    viewModel.onAddFavorite(user.id)
+                } else {
+                    viewModel.onDeleteFavorite(user.id)
+                }
             }
         })
 
-        recycler.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        recycler.adapter = listAdapter
+        recycler?.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        recycler?.adapter = listAdapter
 
-        progress.visibility = View.VISIBLE
+        progress?.visibility = View.VISIBLE
+
+        swipeToRefresh?.setOnRefreshListener {
+            swipeToRefresh?.isRefreshing = false
+            viewModel.onRefresh()
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.onListNeeded().collectLatest { users ->
+                    listAdapter?.submitData(users)
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.onListNeeded().collectLatest { users ->
-//                render(users)
                 listAdapter?.submitData(users)
             }
         }
     }
-
-//    fun render(list: List<UiUserRow>) {
-//        listAdapter.set(list)
-//        listAdapter.listener(object : UsersListAdapter.UserListener {
-//            override fun onUserPhotoClicked(user: UiUserRow) {
-//                //we should navigate from viewModel
-//                (requireActivity() as ToFlowNavigable).navigateToFlow(NavigationFlow.DetailsFlow(user.id))
-//            }
-//
-//            override fun onUserDeleteClicked(user: UiUserRow) {
-//                TODO("Not yet implemented")
-//            }
-//
-//            override fun onUserFavoriteClicked(user: UiUserRow, checked: Boolean) {
-//                TODO("Not yet implemented")
-//            }
-//        })
-//        val layoutManager = recycler.layoutManager
-//        if (layoutManager is LinearLayoutManager) {
-//            val linearLayoutManager = layoutManager as LinearLayoutManager?
-//            linearLayoutManager?.scrollToPositionWithOffset(0, 0)
-//        }
-//    }
 
     fun showError(errorMessage: String) {
         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()

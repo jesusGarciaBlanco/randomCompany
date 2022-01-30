@@ -2,6 +2,7 @@ package com.gbjm.core.domain
 
 import androidx.paging.*
 import com.gbjm.core.api.ApiService
+import com.gbjm.core.domain.entity.Favorite
 import com.gbjm.core.domain.entity.User
 import com.gbjm.core.domain.mapper.UserMapperImp
 import kotlinx.coroutines.flow.Flow
@@ -19,8 +20,6 @@ class UsersRepositoryImp @Inject constructor(
 
     private val pagingSourceFactory = { db.userDao.getUsers() }
 
-    var favorites = mutableListOf<String>()
-
     @ExperimentalPagingApi
     override suspend fun getAllUsers(): Flow<PagingData<User>> {
         return Pager(
@@ -33,21 +32,27 @@ class UsersRepositoryImp @Inject constructor(
         ).flow
     }
 
+    override suspend fun deleteUser(id: String) {
+        db.userDao.deleteById(id)
+    }
+
+    override suspend fun clearUsers() {
+        db.userDao.clearAll()
+    }
+
     override fun getUserDetail(id: String): User {
-        val userFlow = db.userDao.getUserById(id)
         return db.userDao.getUserById(id)
     }
 
-    //    override suspend fun getAllUsers(): Flow<PagingData<User>> {
-//        val users = remoteDataSource.getUsers()
-//        return remoteDataSource.getUsers().map { pagingData ->
-//            pagingData.map { remoteUser ->
-//                userMapper.mapRemoteUserToDomain(remoteUser)
-//            }
-//        }
-//    }
+    override suspend fun getFavorites(): List<Favorite>{
+        return db.favoriteDao.getFavorites()
+    }
 
-    override suspend fun getFavorites(): List<String> {
-        return favorites
+    override suspend fun addFavorite(id: String) {
+        db.favoriteDao.insertFavorite(Favorite(id))
+    }
+
+    override suspend fun deleteFavorite(id: String) {
+        db.favoriteDao.deleteById(id)
     }
 }

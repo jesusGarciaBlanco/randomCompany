@@ -1,15 +1,14 @@
 package com.gbjm.randomcompany.ui.detail
 
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.gbjm.core.domain.UsersRepository
 import com.gbjm.randomcompany.ui.detail.entity.UiUserDetail
 import com.gbjm.randomcompany.ui.detail.mapper.UiUserDetailMapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 class UserDetailViewModel @Inject constructor(
@@ -29,11 +28,7 @@ class UserDetailViewModel @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             val userDomain = repository.getUserDetail(userId)
             val userDetailMapped = mapper.mapDomainUserToUiDetail(userDomain)
-            Log.d("DBase", "userDetailMapper id=${userDetailMapped.id}")
-            Log.d("DBase", "userDetailMapper name=${userDetailMapped.name}")
-            Log.d("DBase", "userDetailMapper email=${userDetailMapped.email}")
             _uiUserDetail.postValue(userDetailMapped)
         }
     }
-
 }

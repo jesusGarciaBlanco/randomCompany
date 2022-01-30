@@ -84,6 +84,9 @@ class UsersListAdapter(private val listener: UserListener) : PagingDataAdapter<U
                 listener?.onUserDeleteClicked(item)
             }
 
+            favoriteTggl.setOnCheckedChangeListener(null)
+            favoriteTggl.isChecked = item.isFavorite
+
             favoriteTggl.setOnCheckedChangeListener { compoundButton, b ->
                 listener?.onUserFavoriteClicked(item, b)
             }

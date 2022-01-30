@@ -6,17 +6,19 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.gbjm.core.domain.dao.FavoriteDao
 import com.gbjm.core.domain.dao.UserDao
+import com.gbjm.core.domain.entity.Favorite
 import com.gbjm.core.domain.entity.User
 
 /**
  * The Room database for this app
  */
-@Database(entities = [User::class], version = 3, exportSchema = false)
+@Database(entities = [User::class, Favorite::class], version = 4, exportSchema = false)
 //@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract val userDao: UserDao
-//    abstract fun plantDao(): PlantDao
+    abstract val favoriteDao: FavoriteDao
 
     companion object {
 

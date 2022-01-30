@@ -74,6 +74,9 @@ dependencies {
     //recycler View
     implementation "androidx.recyclerview:recyclerview:${recycler_view_version}"
 
+    //swipe to refresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
     //Picasso
     implementation "com.squareup.picasso:picasso:${picasso_version}"
 

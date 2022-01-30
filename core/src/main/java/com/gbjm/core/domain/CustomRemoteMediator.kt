@@ -68,9 +68,9 @@ class CustomRemoteMediator(
 
             Timber.d("user dbSize= $usersDbSize")
             var page : Int = INITIAL_PAGE
-//            if (usersDbSize > 10){
-//                page = (usersDbSize / 10) +1
-//            }
+            if (usersDbSize >= 10){
+                page = (usersDbSize / 10) +1
+            }
 
             Timber.d("page=$page")
             val response = networkService.getUsers(NETWORK_PAGE_SIZE, page)

@@ -150,11 +150,11 @@ class NavigationTest {
         //check if textview user name detail is displayed
         Espresso.onView(withId(R.id.tvNameDetail)).check(
             matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(withId(R.id.tvNameDetail)).check(matches(withText("Pedro")));
+        Espresso.onView(withId(R.id.tvNameDetail)).check(matches(withText("Mr Pjotr")));
         //check if textview user surname detail is displayed
         Espresso.onView(withId(R.id.tvSurnameDetail)).check(
             matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(withId(R.id.tvSurnameDetail)).check(matches(withText(containsString("Picapiedra"))))
+        Espresso.onView(withId(R.id.tvSurnameDetail)).check(matches(withText(containsString("Van Dijk"))))
 
     }
 }
