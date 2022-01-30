@@ -25,8 +25,6 @@ class UserMapperImp @Inject constructor(
     suspend fun mapRemoteUserToDomain(
         remoteUser: UserDataEntity
     ): User {
-        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        val dateParsed = sdf.parse(remoteUser.registered.date)
         return User(
             uuid = remoteUser.login.uuid,
             name = "${remoteUser.name.title} ${remoteUser.name.first}",
@@ -39,24 +37,4 @@ class UserMapperImp @Inject constructor(
             gender = remoteUser.gender
         )
     }
-
-//    override suspend fun mapDomainUsersListToUi(domainUsers: List<User>): List<UiUserRow> {
-//        return withContext(defaultDispatcher) {
-//            domainUsers.map {
-//                mapDomainUserToUi(it)
-//            }
-//        }
-//    }
-//
-//    override suspend fun mapDomainUserToUi(domainUser: User): UiUserRow {
-//        return UiUserRow(
-//            id = domainUser.id,
-//            name = domainUser.name,
-//            surname = domainUser.surname,
-//            email = domainUser.email,
-//            image = domainUser.pictures.thumbnail,
-//            phone = domainUser.phone,
-//            isFavorite = false
-//        )
-//    }
 }

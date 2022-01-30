@@ -23,29 +23,16 @@ class UsersListAdapter(private val listener: UserListener) : PagingDataAdapter<U
         fun onUserFavoriteClicked(user: UiUserRow, checked: Boolean)
     }
 
-//    private var users: List<UiUserRow> = emptyList()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_user_row, parent, false)
         return ListViewHolder(view,listener)
     }
-
-//    override fun getItemCount(): Int = users.size
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
        with (getItem(position)) {
             holder.bind(this!!)
         }
     }
-
-    //    fun set(listModel: List<UiUserRow>) {
-//        users = listModel
-//        notifyDataSetChanged()
-//    }
-
-//    fun listener(listener: UserListener) {
-//        this.listener = listener
-//    }
 
     class ListViewHolder(view: View, private val listener: UserListener?) : BaseViewHolder<UiUserRow>(view) {
         var image: ImageView = view.findViewById(R.id.ivUser)

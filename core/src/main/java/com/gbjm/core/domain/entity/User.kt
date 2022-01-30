@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 import com.gbjm.core.model.entity.Pictures
 import com.gbjm.core.model.entity.UserDataEntity
 import java.text.SimpleDateFormat
-import java.util.*
 
 @Entity(tableName = "users")
 data class User(
